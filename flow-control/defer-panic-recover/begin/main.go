@@ -8,9 +8,20 @@ func cleanup(msg string) {
 }
 
 func main() {
-	// defer function calls
+	// defer function calls (treated like finally from try, catch, finally)
+	//executed in LIFO order
+	defer cleanup("first")
+	defer cleanup("second")
+
+	fmt.Println("Working in main");
 
 	// defer recovery
+	defer func(){
+		if err:= recover();err!=nil {
+			fmt.Println("recovered from panic:", err)
+		}
+	}()
 
 	// panic
+	panic("Server error.")
 }

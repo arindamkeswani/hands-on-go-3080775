@@ -1,25 +1,46 @@
 // interfaces/basics/begin/main.go
 package main
 
+import "fmt"
+
 // define a humanoid interface with speak and walk methods returning string
-
-// define a person type that implements humanoid interface
-
-// implement the Stringer interface for the person type
-
-// define a dog type that can walk but not speak
-
-func main() {
-	// invoke with a person
-	// doHumanThings(person{})
-
-	// can we invoke with a dog?
-	// doHumanThings(dog{})
-
-	// fmt.Println(p)
+type humanoid interface {
+	speak()
+	walk()
 }
 
-// func doHumanThings(h humanoid) {
-// 	h.speak()
-// 	h.walk()
-// }
+
+// define a person type that implements humanoid interface
+type person struct{ name string }
+
+func (p person) speak() { fmt.Printf("%s speaking...\n", p.name) }
+
+func (p person) walk() { fmt.Printf("%s walking...\n", p.name) }
+
+// implement the Stringer interface for the person type
+func (p person) String() string {
+	return fmt.Sprintf("Hello, my name is %s", p.name);
+}
+
+// define a dog type that can walk but not speak
+type dog struct {}
+
+func (d dog) walk() { fmt.Println("Dog walking...") }
+
+func main() {
+	p := person{ name: "Arindam" }
+	// invoke with a person
+	doHumanThings(p)
+
+	// can we invoke with a dog?
+	//No, types must implement all methods of an interface. 
+	// dog only implements walk(), not speak()
+	// doHumanThings(dog{})
+
+	fmt.Println(p)
+}
+
+func doHumanThings(h humanoid) {
+	h.speak()
+	h.walk()
+}
